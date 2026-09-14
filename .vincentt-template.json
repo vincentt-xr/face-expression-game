@@ -29,6 +29,13 @@
     "esbuild.config.mjs"
   ],
   "creator": [
-    "src/Scene.tsx"
+    "src/Scene.tsx",
+    "src/ExpressionGameUI.tsx",
+    "src/faceExpressionTypes.ts",
+    "src/faceExpressions.ts",
+    "src/gameConfig.ts",
+    "src/hudAssets.ts",
+    "src/useFaceExpressionGame.ts",
+    "src/useScreenTransformAnimation.ts"
   ]
 }

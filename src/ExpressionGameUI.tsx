@@ -19,26 +19,6 @@ type Props = {
   onStart: () => void;
 };
 
-const lifeTransform: ScreenTransform2DSettings = {
-  enabled: true,
-  position: { x: -270, y: 520 },
-  size: { width: 120, height: 120 },
-  pivot: [0.5, 0.5],
-  rotation: 0,
-  scale2D: { x: 0.5, y: 0.5 },
-  referencePixelsPerUnit: 32,
-  renderOrder: 1001,
-  overlay: true,
-  visible: true,
-  showTransformGuides: false,
-};
-
-const clockTransform: ScreenTransform2DSettings = {
-  ...lifeTransform,
-  position: { x: 170, y: 520 },
-  size: { width: 120, height: 120 },
-};
-
 const initialClockCountTransform: ScreenTransform2DSettings = {
   enabled: true,
   position: { x: 285, y: 520 },
@@ -202,7 +182,19 @@ export const ExpressionGameUI = (props: Props) => {
           fit="contain"
           transparent
           alphaTest={0.01}
-          transform={lifeTransform}
+          transform={{
+            enabled: true,
+            position: { x: -270, y: 520 },
+            size: { width: 120, height: 120 },
+            pivot: [0.5, 0.5],
+            rotation: 0,
+            scale2D: { x: 0.5, y: 0.5 },
+            referencePixelsPerUnit: 32,
+            renderOrder: 1001,
+            overlay: true,
+            visible: true,
+            showTransformGuides: false,
+          }}
           transformGuideLayer="overlay"
         />
         <ScreenText
@@ -227,7 +219,19 @@ export const ExpressionGameUI = (props: Props) => {
           fit="contain"
           transparent
           alphaTest={0.01}
-          transform={clockTransform}
+          transform={{
+            enabled: true,
+            position: { x: 170, y: 520 },
+            size: { width: 120, height: 120 },
+            pivot: [0.5, 0.5],
+            rotation: 0,
+            scale2D: { x: 0.5, y: 0.5 },
+            referencePixelsPerUnit: 32,
+            renderOrder: 1001,
+            overlay: true,
+            visible: true,
+            showTransformGuides: false,
+          }}
           transformGuideLayer="overlay"
         />
         <ScreenText

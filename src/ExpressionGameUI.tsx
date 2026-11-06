@@ -5,16 +5,24 @@ import {
   ScreenText,
   type ScreenTransform2DSettings,
 } from "@vincentt-xr/sdk";
-import type { ExpressionFeedback, GamePhase } from "./faceExpressionTypes";
-import { HUD_ASSETS } from "./hudAssets";
+import type {
+  ExpressionFeedback,
+  ExpressionId,
+  GamePhase,
+} from "./faceExpressionTypes";
 import { Overlay } from "./overlay";
 import { useScreenTransformAnimation } from "./useScreenTransformAnimation";
+
+// Each round's label and hint, and each feedback line, is its own ScreenText with
+// literal `text`, and each HUD icon a ScreenImage with a literal `src`, so the
+// console's visual editor can retype or swap them. Only the one for the current
+// round is visible. Text built from a variable can only be changed in code.
 
 type Props = {
   phase: GamePhase;
   lives: number;
   secondsRemaining: number;
-  expression: { label: string; hint: string };
+  expressionId: ExpressionId | undefined;
   feedback: ExpressionFeedback;
   onStart: () => void;
 };
@@ -90,7 +98,7 @@ export const ExpressionGameUI = (props: Props) => {
     phase,
     lives,
     secondsRemaining,
-    expression,
+    expressionId,
     feedback,
     onStart,
   } = props;
@@ -159,7 +167,7 @@ export const ExpressionGameUI = (props: Props) => {
     baseTransform: expressionTextTransform,
     animation: "breathing-pop",
     active: isPlaying,
-    triggerKey: expression.label,
+    triggerKey: expressionId,
   });
   const animatedHintTransform = useScreenTransformAnimation({
     baseTransform: expressionHintTransform,
@@ -178,7 +186,7 @@ export const ExpressionGameUI = (props: Props) => {
       <ScreenSpaceUI>
         <ScreenImage
           name="life"
-          src={HUD_ASSETS.life}
+          src="https://cdn.jsdelivr.net/gh/21myatt/poc-lib-assets-cdn@main/assets/overlay/communication-icons-social-media-sets/3d-red-heart-chat-bubble-like.png"
           fit="contain"
           transparent
           alphaTest={0.01}
@@ -215,7 +223,7 @@ export const ExpressionGameUI = (props: Props) => {
         />
         <ScreenImage
           name="clock"
-          src={HUD_ASSETS.clock}
+          src="https://cdn.jsdelivr.net/gh/21myatt/poc-lib-assets-cdn@main/assets/overlay/3d-icons-pink-sets/3d-pink-twin-bell-alarm-clock.png"
           fit="contain"
           transparent
           alphaTest={0.01}
@@ -251,8 +259,8 @@ export const ExpressionGameUI = (props: Props) => {
           }}
         />
         <ScreenText
-          name="expressionTask"
-          text={expression.label}
+          name="Smile label"
+          text="Smile"
           fontSize={108}
           color="#ffffff"
           bgColor="transparent"
@@ -262,17 +270,13 @@ export const ExpressionGameUI = (props: Props) => {
           textAlign="center"
           verticalAlign="center"
           screenTransform={animatedExpressionTransform}
-          visible={isPlaying}
+          visible={isPlaying && expressionId === "smile"}
           transformGuideLayer="overlay"
-          onScreenTransformChange={(next) => {
-            setExpressionTextTransform(next);
-            // eslint-disable-next-line no-console
-            console.info("expressionText transform:", next);
-          }}
+          onScreenTransformChange={setExpressionTextTransform}
         />
         <ScreenText
-          name="expressionHint"
-          text={expression.hint}
+          name="Smile hint"
+          text="Show us your biggest smile"
           fontSize={42}
           color="#9be7ff"
           bgColor="transparent"
@@ -281,40 +285,202 @@ export const ExpressionGameUI = (props: Props) => {
           shadowLayers={[{ color: "#0ea5e9", blur: 12, opacity: 0.55 }]}
           textAlign="center"
           verticalAlign="center"
-          visible={isPlaying}
           screenTransform={animatedHintTransform}
+          visible={isPlaying && expressionId === "smile"}
           transformGuideLayer="overlay"
-          onScreenTransformChange={(next) => {
-            setExpressionHintTransform(next);
-            // eslint-disable-next-line no-console
-            console.info("expressionHint transform:", next);
-          }}
+          onScreenTransformChange={setExpressionHintTransform}
         />
         <ScreenText
-          name="expressionFeedback"
-          text={feedback === "correct" ? "✓ CORRECT!" : "✕ TRY AGAIN"}
+          name="Open Mouth label"
+          text="Open Mouth"
+          fontSize={108}
+          color="#ffffff"
+          bgColor="transparent"
+          fontWeight={900}
+          strokeLayers={[{ color: "#101828", width: 12, opacity: 1 }]}
+          shadowLayers={[{ color: "#38bdf8", blur: 18, opacity: 0.8 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedExpressionTransform}
+          visible={isPlaying && expressionId === "open-mouth"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionTextTransform}
+        />
+        <ScreenText
+          name="Open Mouth hint"
+          text="Open your mouth wide"
+          fontSize={42}
+          color="#9be7ff"
+          bgColor="transparent"
+          fontWeight={500}
+          fontStyle="italic"
+          shadowLayers={[{ color: "#0ea5e9", blur: 12, opacity: 0.55 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedHintTransform}
+          visible={isPlaying && expressionId === "open-mouth"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionHintTransform}
+        />
+        <ScreenText
+          name="Blink Left label"
+          text="Blink Left"
+          fontSize={108}
+          color="#ffffff"
+          bgColor="transparent"
+          fontWeight={900}
+          strokeLayers={[{ color: "#101828", width: 12, opacity: 1 }]}
+          shadowLayers={[{ color: "#38bdf8", blur: 18, opacity: 0.8 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedExpressionTransform}
+          visible={isPlaying && expressionId === "blink-left"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionTextTransform}
+        />
+        <ScreenText
+          name="Blink Left hint"
+          text="Close your left eye"
+          fontSize={42}
+          color="#9be7ff"
+          bgColor="transparent"
+          fontWeight={500}
+          fontStyle="italic"
+          shadowLayers={[{ color: "#0ea5e9", blur: 12, opacity: 0.55 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedHintTransform}
+          visible={isPlaying && expressionId === "blink-left"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionHintTransform}
+        />
+        <ScreenText
+          name="Blink Right label"
+          text="Blink Right"
+          fontSize={108}
+          color="#ffffff"
+          bgColor="transparent"
+          fontWeight={900}
+          strokeLayers={[{ color: "#101828", width: 12, opacity: 1 }]}
+          shadowLayers={[{ color: "#38bdf8", blur: 18, opacity: 0.8 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedExpressionTransform}
+          visible={isPlaying && expressionId === "blink-right"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionTextTransform}
+        />
+        <ScreenText
+          name="Blink Right hint"
+          text="Close your right eye"
+          fontSize={42}
+          color="#9be7ff"
+          bgColor="transparent"
+          fontWeight={500}
+          fontStyle="italic"
+          shadowLayers={[{ color: "#0ea5e9", blur: 12, opacity: 0.55 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedHintTransform}
+          visible={isPlaying && expressionId === "blink-right"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionHintTransform}
+        />
+        <ScreenText
+          name="Wide Eyes label"
+          text="Wide Eyes"
+          fontSize={108}
+          color="#ffffff"
+          bgColor="transparent"
+          fontWeight={900}
+          strokeLayers={[{ color: "#101828", width: 12, opacity: 1 }]}
+          shadowLayers={[{ color: "#38bdf8", blur: 18, opacity: 0.8 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedExpressionTransform}
+          visible={isPlaying && expressionId === "wide-eyes"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionTextTransform}
+        />
+        <ScreenText
+          name="Wide Eyes hint"
+          text="Open your eyes wide"
+          fontSize={42}
+          color="#9be7ff"
+          bgColor="transparent"
+          fontWeight={500}
+          fontStyle="italic"
+          shadowLayers={[{ color: "#0ea5e9", blur: 12, opacity: 0.55 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedHintTransform}
+          visible={isPlaying && expressionId === "wide-eyes"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionHintTransform}
+        />
+        <ScreenText
+          name="Neutral Face label"
+          text="Neutral Face"
+          fontSize={108}
+          color="#ffffff"
+          bgColor="transparent"
+          fontWeight={900}
+          strokeLayers={[{ color: "#101828", width: 12, opacity: 1 }]}
+          shadowLayers={[{ color: "#38bdf8", blur: 18, opacity: 0.8 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedExpressionTransform}
+          visible={isPlaying && expressionId === "neutral"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionTextTransform}
+        />
+        <ScreenText
+          name="Neutral Face hint"
+          text="Relax your face"
+          fontSize={42}
+          color="#9be7ff"
+          bgColor="transparent"
+          fontWeight={500}
+          fontStyle="italic"
+          shadowLayers={[{ color: "#0ea5e9", blur: 12, opacity: 0.55 }]}
+          textAlign="center"
+          verticalAlign="center"
+          screenTransform={animatedHintTransform}
+          visible={isPlaying && expressionId === "neutral"}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setExpressionHintTransform}
+        />
+        <ScreenText
+          name="Correct feedback"
+          text="✓ CORRECT!"
           fontSize={48}
-          color={feedback === "correct" ? "#7CFFB2" : "#FF8A9B"}
+          color="#7CFFB2"
           bgColor="transparent"
           fontWeight={800}
           strokeLayers={[{ color: "#101828", width: 8, opacity: 1 }]}
-          shadowLayers={[
-            {
-              color: feedback === "correct" ? "#22c55e" : "#ef4444",
-              blur: 18,
-              opacity: 0.7,
-            },
-          ]}
+          shadowLayers={[{ color: "#22c55e", blur: 18, opacity: 0.7 }]}
           textAlign="center"
           verticalAlign="center"
-          visible={isPlaying && feedback !== null}
+          visible={isPlaying && feedback === "correct"}
           screenTransform={animatedFeedbackTransform}
           transformGuideLayer="overlay"
-          onScreenTransformChange={(next) => {
-            setFeedbackTransform(next);
-            // eslint-disable-next-line no-console
-            console.info("expressionFeedback transform:", next);
-          }}
+          onScreenTransformChange={setFeedbackTransform}
+        />
+        <ScreenText
+          name="Wrong feedback"
+          text="✕ TRY AGAIN"
+          fontSize={48}
+          color="#FF8A9B"
+          bgColor="transparent"
+          fontWeight={800}
+          strokeLayers={[{ color: "#101828", width: 8, opacity: 1 }]}
+          shadowLayers={[{ color: "#ef4444", blur: 18, opacity: 0.7 }]}
+          textAlign="center"
+          verticalAlign="center"
+          visible={isPlaying && feedback === "wrong"}
+          screenTransform={animatedFeedbackTransform}
+          transformGuideLayer="overlay"
+          onScreenTransformChange={setFeedbackTransform}
         />
       </ScreenSpaceUI>
       <Overlay corner="center">

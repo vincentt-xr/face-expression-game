@@ -22,12 +22,7 @@ export const Scene = () => {
       phase={game.phase}
       lives={game.lives}
       secondsRemaining={game.secondsRemaining}
-      expression={
-        game.currentExpression ?? {
-          label: "Get Ready",
-          hint: "Press Start to begin",
-        }
-      }
+      expressionId={game.currentExpression?.id}
       feedback={game.feedback}
       onStart={game.startGame}
     />

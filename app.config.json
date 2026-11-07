@@ -1,0 +1,9 @@
+{
+  "title": "Face Expression Game - Vincentt",
+  "description": "A playful AR game where players match six facial expressions before time runs out using real-time face tracking.",
+  "image": "/images/og-default.jpg",
+  "imageAlt": "Vincentt — Augmented Reality App builder",
+  "imageWidth": 1200,
+  "imageHeight": 630,
+  "imageType": "image/jpeg"
+}

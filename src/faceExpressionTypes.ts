@@ -14,7 +14,5 @@ export type ExpressionId =
 
 export type FaceExpression = {
   id: ExpressionId;
-  label: string;
-  hint: string;
   matches: (face: FaceInfo) => boolean;
 };
